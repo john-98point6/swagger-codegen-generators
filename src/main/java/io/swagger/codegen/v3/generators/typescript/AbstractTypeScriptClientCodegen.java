@@ -7,7 +7,6 @@ import io.swagger.codegen.v3.CodegenProperty;
 import io.swagger.codegen.v3.CodegenType;
 import io.swagger.codegen.v3.ISchemaHandler;
 import io.swagger.codegen.v3.generators.DefaultCodegenConfig;
-import io.swagger.codegen.v3.generators.util.OpenAPIUtil;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -25,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -429,6 +429,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegenConf
         }
     }
 
+    class Sortbyname implements Comparator<CodegenProperty> {
+        public int compare(CodegenProperty a, CodegenProperty b) {
+            return a.name.compareTo(b.name);
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
@@ -437,6 +443,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegenConf
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
+            cm.vars.sort(new Sortbyname());
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => Pet.StatusEnum
                 boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
