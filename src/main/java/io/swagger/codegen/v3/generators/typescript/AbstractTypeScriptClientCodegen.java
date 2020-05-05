@@ -447,6 +447,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegenConf
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => Pet.StatusEnum
                 boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
+
+                Boolean isArray = var.getContainerType() == "array";
+                var.getVendorExtensions().put("x-isArray", isArray);
+
+                Boolean isObject = var.getContainerType() == "map";
+                var.getVendorExtensions().put("x-isObject", isObject);
+
                 if (Boolean.TRUE.equals(isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
                 }
