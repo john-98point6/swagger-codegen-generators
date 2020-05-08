@@ -76,10 +76,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             embeddedTemplateDir = templateDir = getTemplateDir();
         }
 
-        // TODO *uses* model but is not model
-        modelPackage = "decoders";
-        modelTemplateFiles.put("json_decoder.mustache", ".ts");
-
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("api_test.mustache", "", "api_test.spec.ts"));
@@ -87,7 +83,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("json_decoder_index.mustache", "decoders", "index.ts"));
+        supportingFiles.add(new SupportingFile("json_decode.mustache", "", "json_decode.ts"));
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
